@@ -10,6 +10,9 @@ import {
 import { Input } from "./ui/input"
 import {Control} from "react-hook-form";
 import { FormFieldType } from "./forms/PatientForm";
+import Image from "next/image";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 
 
@@ -35,16 +38,15 @@ const RenderField = ({field,props}:{field:any;props:CustomProps})=>{
     switch (fieldType) {
         case FormFieldType.INPUT:
             return(
-                <div className="flex rounded-md border border-dark-500 bg-dark-400">
-                    {   iconSrc && (
-                            <Image
-                                src={iconSrc}
-                                height={24}
-                                width={24}
-                                alt={iconAlt || 'icon'}
-                                className='ml-2'
-                            />
-                    )}
+                <div className="flex rounded-md border border-dark-500 bg-dark-400 text-dark-600">
+                    {iconSrc && 
+                        <Image
+                            src={iconSrc}
+                            height={24}
+                            width={24}
+                            alt={iconAlt || 'icon'}
+                            className="ml-2"
+                        />}
                     <FormControl>
                         <Input
                             placeholder={placeholder}
@@ -53,9 +55,22 @@ const RenderField = ({field,props}:{field:any;props:CustomProps})=>{
                         />
                     </FormControl>
                 </div>
-            );
-            break;
-    
+            );    
+        
+        case FormFieldType.PHONE_INPUT:
+            return (
+                <FormControl>
+                    <PhoneInput
+                        defaultCountry="US"
+                        placeholder = {placeholder}
+                        international
+                        withCountryCallingCode
+                        value={field.value as E164Number | undefined}
+                        onChange={field.onChange}
+                        className="input-phone text-dark-600"
+                    />
+                </FormControl>
+            )
         default:
             break;
     }
