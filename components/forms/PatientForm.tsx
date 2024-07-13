@@ -3,17 +3,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
 import {
   Form
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
-
+import { createUser } from "@/lib/actions/patient.actions"
 
 export enum FormFieldType {
   INPUT = "input",
@@ -24,8 +22,6 @@ export enum FormFieldType {
   SELECT="select",
   SKELETON="skeleton",
 }
-
-
  
 const PatientForm = () =>{
 
@@ -48,9 +44,10 @@ const PatientForm = () =>{
     // ✅ This will be type-safe and validated.
     setIsLoading(true);
     try {
-      const userData = {name, email, phone }
+      const userData = {name, email, phone };
       const user = await createUser(userData);
-      if(user) router.push(`/patients/${user.$id}/register`);
+      // if(user) {router.push(`/patients/${user.$id}/register`);}
+      if(user){alert("Hi, I am an User!")};
     } catch (error) {
       console.log(error);      
     }
@@ -78,7 +75,7 @@ const PatientForm = () =>{
         label="EMail"
         placeholder="jhondoe@yahoo.com"
         iconSrc = "/assets/icons/email.svg"
-        iconAlt="user"
+        iconAlt="email"
       />
       <CustomFormField
         fieldType={FormFieldType.PHONE_INPUT}
